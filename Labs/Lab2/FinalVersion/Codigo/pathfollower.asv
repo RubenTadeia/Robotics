@@ -1,0 +1,46 @@
+function [ output_args ] = pathfollower(path, v,dt )
+%PATHFOLLOWER Summary of this function goes here
+%   Detailed explanation goes here
+
+theta=atan2(path(2,2)-path(1,2),path(2,1)-path(1,1));
+v=1;
+w=0;
+
+x=path(1,1);
+y=path(1,2);
+
+%tempo a passar
+'figure
+for k=1:1000
+    
+    ref=nearestpt(x,y,path);
+    xref=path(ref,1);
+    yref=path(ref,2);
+     thetaref=atan2(path(ref+1,2)-yref,path(ref+1,1)-xref);
+    
+    theta=thetaref;
+    x=x+v*cos(theta)*dt;
+    y=y+v*sin(theta)*dt;
+    
+    plot(path(:,2),path(:,1));hold on;
+    plot(y,x,'o');
+    plot(xref,yref,'marker','o','color','r');
+      
+
+
+end
+end
+
+function[imin]=nearestpt(x,y,path);
+
+imin=1;
+min=(path(1,1)-x)^2+(path(1,2)-y)^2;
+
+for i=2:length(path);
+    if min>(path(1,1)-x)^2+(path(1,2)-y)^2;
+        imin=i;
+    end
+end
+end
+    
+    
